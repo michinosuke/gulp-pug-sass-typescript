@@ -20,6 +20,7 @@ const babel = require('gulp-babel');
 const uglify = require('gulp-uglify');
 const browserify = require('browserify');
 const source = require('vinyl-source-stream');
+const rimraf = require('rimraf');
 
 const base = process.argv.length === 4
   ? `/${minimist(process.argv.slice(2)).base}`
@@ -58,6 +59,7 @@ const path = {
     babel: {
       dir: `src${base}/typescript/babel`,
       index: `src${base}/typescript/babel/index.js`,
+      all: `src${base}/typescript/babel/*`,
     },
   },
 };
@@ -106,6 +108,10 @@ gulp.task('sass', () => gulp.src(path.sass.input.index)
     icon: './notify-icon/icon_sass.png',
   })));
 
+gulp.task('rm-babel', (cb) => {
+  rimraf(path.ts.babel.all, cb)
+})
+
 gulp.task('babel', () => gulp.src(path.ts.input.all)
   .pipe(babel({
     presets: [
@@ -131,10 +137,10 @@ gulp.task('bundle', () => browserify(path.ts.babel.index)
     icon: './notify-icon/icon_babel.png',
   })));
 
-gulp.task('default', gulp.parallel('browser-sync', 'pug', 'sass', gulp.series('babel', 'bundle'), () => {
+gulp.task('default', gulp.parallel('browser-sync', 'pug', 'sass', gulp.series('rm-babel', 'babel', 'bundle'), () => {
   gulp.watch(path.pug.input.all, gulp.series('pug', 'reload'));
   gulp.watch(path.sass.input.all, gulp.series('sass', 'reload'));
-  gulp.watch(path.ts.input.all, gulp.series('babel', 'bundle', 'reload'));
+  gulp.watch(path.ts.input.all, gulp.series('rm-babel', 'babel', 'bundle', 'reload'));
 }));
 
-gulp.task('compile', gulp.parallel('pug', 'sass', gulp.series('babel', 'bundle')));
+gulp.task('compile', gulp.parallel('pug', 'sass', gulp.series('rm-babel', 'babel', 'bundle')));
