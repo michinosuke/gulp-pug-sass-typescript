@@ -1,0 +1,32 @@
+extends _layout
+
+include ../../pug/_components
+include _components
+
+block contents
+  .wrapper
+    +header
+
+    .heading-top-padding(style="height: 100px")
+
+    +heading('Special guest', '特別審査員', 'center')
+
+    .heading-bottom-padding(style="height: 68px")
+
+    - var i = 0
+    - var direction = ''
+    each profile in profile_list
+      if i % 2 == 0
+        - direction = 'left'
+      else
+        - direction = 'right'
+      +special-guest-block(direction, profile)
+      - i += 1
+
+    .vote-button-wrapper
+      +vote-button-box
+      +vote-button-instagram
+
+    +goto-top
+
+    include ../../pug/_footer

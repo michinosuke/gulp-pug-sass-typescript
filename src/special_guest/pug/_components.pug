@@ -1,0 +1,17 @@
+mixin special-guest-block(direction, profile)
+  article(class=`special-guest-block ${direction}`)
+    .top-band
+    .bottom-band
+    p.profile-image
+      img(src=`${image_path}profile-image_${profile.image}.jpg` alt=`${profile.name.ja}さんの画像`)
+    .letter-wrapper
+      span.name-en #{profile.name.en}
+      h2.name-ja #{profile.name.ja}
+      p.description !{profile.description}
+    span.check-more Check more
+    if direction == 'right'
+      +arrow-right('black')
+    else
+      +arrow-left('black')
+    +icon-twitter('black', profile.link.twitter)
+    +icon-instagram('black', profile.link.instagram)

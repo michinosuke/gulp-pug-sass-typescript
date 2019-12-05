@@ -1,0 +1,46 @@
+.vote-button {
+  margin: auto;
+  background-color: $basic-red;
+  width: 314px;
+  height: 76px;
+  * {
+    position: absolute;
+  }
+  .icon {
+    top: 28px;
+    left: 63px;
+    width: 26px;
+  }
+  span {
+    color: white;
+  }
+  .arrow {
+    width: 47px;
+  }
+  &.box {
+    span {
+      top: 16px;
+      left: 117px;
+      color: white;
+      font-size: 21px;
+    }
+    .arrow {
+      top: 29px;
+      left: 232px;
+    }
+  }
+  &.instagram {
+    span {
+      font-family: 'Roboto', 'Noto Sans JP', sans-serif;
+      text-align: center;
+      top: 17px;
+      left: 117px;
+      font-size: 18px;
+      line-height: 24px;
+    }
+    .arrow {
+      top: 29px;
+      left: 218px;
+    }
+  }
+}

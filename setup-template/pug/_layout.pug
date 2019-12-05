@@ -3,6 +3,7 @@ include _config
 doctype html
 html(lang="ja")
   head
-    include _head
+    include ../../pug/_head
   body
     block contents
+    script(src=js_path)

@@ -1,0 +1,43 @@
+mixin header(selected='')
+  - var top = ''
+  - var about = ''
+  - var vote = ''
+  - var news = ''
+  - var illustrators = ''
+  - var ranking = ''
+
+  case selected
+    when 'top'
+      - top = 'selected'
+    when 'about'
+      - about = 'selected'
+    when 'vote'
+      - vote = 'selected'
+    when 'news'
+      - news = 'selected'
+    when 'illustrators'
+      - illustrators = 'selected'
+    when 'ranking'
+      - ranking = 'selected'
+  
+  header.is-logged-in
+    nav
+      ul
+        li(class=top) top
+          a.covered-link(href="#")
+        li(class=about) about
+          a.covered-link(href="#")
+        li(class=vote) vote
+          a.covered-link(href="#")
+        li(class=news) news
+          a.covered-link(href="#")
+        li(class=illustrators) illustrators
+          a.covered-link(href="#")
+        li(class=ranking) ranking
+          a.covered-link(href="#")
+        li.login login
+          a.covered-link(href="#")
+        li.logout logout
+          a.covered-link(href="#")
+      +icon-instagram('#C2191F')
+      +icon-twitter('#C2191F')

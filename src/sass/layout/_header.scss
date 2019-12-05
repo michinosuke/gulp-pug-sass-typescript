@@ -1,0 +1,55 @@
+header {
+  position: fixed;
+  z-index: 100;
+  padding-top: 18px;
+  padding-right: 60px;
+  width: 100%;
+  color: $basic-red;
+  font-size: 21px;
+  letter-spacing: 1px;
+  .logout {
+    display: none;
+  }
+  &.is-logged-in {
+    .login {
+      display: none;
+    }
+    .logout {
+      display: inline-block;
+    }
+  }
+  ul {
+    display: flex;
+    justify-content: flex-end;
+    li {
+      margin-right: 38px;
+      &.selected {
+        position: relative;
+        &::before {
+          position: absolute;
+          display: block;
+          margin: auto;
+          left: 0;
+          right: 0;
+          top: 40px;
+          content: '';
+          width: 6px;
+          height: 6px;
+          border-radius: 3px;
+          background-color: $basic-red;
+        }
+      }
+    }
+  }
+  .instagram, .twitter {
+    position: absolute;
+    top: 12px;
+    width: 29px;
+  }
+  .instagram {
+    left: 40px;
+  }
+  .twitter {
+    left: 81px;
+  }
+}

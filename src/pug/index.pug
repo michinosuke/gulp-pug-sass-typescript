@@ -1,7 +1,19 @@
 extends _layout
+include _components
 
 block contents
-  h1 success!!
-  p You can use Pug, SCSS and TypeScript.
-  p 
-  a(href="") Learn more
+  .wrapper
+    include _header
+    //- +icon-instagram('red', '#')
+    //- +icon-twitter('blue', '#')
+    //- +icon-box('black')
+    //- +balloon('#FAF2F2')
+    //-   span ステッカー
+    //-     br
+    //-     | プレゼント！
+
+    //- +special-guest-block('right')
+
+    //- +heading('Illustrators', 'イラストレーター紹介', 'left')
+
+    include _footer

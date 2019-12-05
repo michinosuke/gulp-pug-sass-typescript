@@ -3,6 +3,9 @@
   "extends": [
     "airbnb"
   ],
+  "env": {
+    "browser": true
+  },
   "plugins": [
     "@typescript-eslint"
   ],
@@ -27,7 +30,7 @@
         "js": "never",
         "ts": "never"
       }
-    ]
+    ],
   },
   "overrides": [
     {

@@ -1,4 +1,5 @@
 {
+  "files.autoSave": "off",
   "eslint.run": "onSave",
   "eslint.autoFixOnSave": true,
   "eslint.validate": [
@@ -7,5 +8,12 @@
       "language": "typescript",
       "autoFix": true
     }
+  ],
+  "cSpell.words": [
+    "Cotoh",
+    "Higasino",
+    "Ishibashi",
+    "parcy",
+    "tsumi"
   ]
 }

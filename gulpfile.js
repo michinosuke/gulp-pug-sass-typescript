@@ -11,11 +11,11 @@ const gulp = require('gulp');
 const notify = require('gulp-notify');
 const browserSync = require('browser-sync').create();
 const sass = require('gulp-sass');
+const sassGlob = require('gulp-sass-glob');
 const autoprefixer = require('gulp-autoprefixer');
 const pug = require('gulp-pug');
 const minimist = require('minimist');
-const plumber = require('gulp-plumber');
-const cached = require('gulp-cached');
+// const cleanCSS = require('gulp-clean-css');
 const babel = require('gulp-babel');
 const uglify = require('gulp-uglify');
 const browserify = require('browserify');
@@ -31,7 +31,7 @@ const path = {
     input: {
       dir: `src${base}/pug`,
       index: `src${base}/pug/index.pug`,
-      all: `src${base}/pug/*.pug`,
+      all: `src${base}/pug/**/*.pug`,
     },
     output: {
       dir: `docs${base}`,
@@ -40,8 +40,8 @@ const path = {
   sass: {
     input: {
       dir: `src${base}/sass`,
-      index: `src${base}/sass/index.scss`,
-      all: `src${base}/sass/*.scss`,
+      index: `src${base}/sass/style.scss`,
+      all: `src${base}/sass/**/*.scss`,
     },
     output: {
       dir: `docs${base}`,
@@ -51,7 +51,7 @@ const path = {
     input: {
       dir: `src${base}/typescript`,
       index: `src${base}/typescript/index.ts`,
-      all: `src${base}/typescript/*.ts`,
+      all: `src${base}/typescript/**/*.ts`,
     },
     output: {
       dir: `docs${base}`,
@@ -59,7 +59,7 @@ const path = {
     babel: {
       dir: `src${base}/typescript/babel`,
       index: `src${base}/typescript/babel/index.js`,
-      all: `src${base}/typescript/babel/*`,
+      all: `src${base}/typescript/babel/**/*`,
     },
   },
 };
@@ -67,15 +67,17 @@ const path = {
 gulp.task('browser-sync', () => {
   browserSync.init({
     port: 3000,
-    files: [`.${base}/**/*.*`],
+    // files: [`.${base}/**/*.*`],
+    files: ['./docs/**/*.*'],
     browser: 'google chrome',
     server: {
-      baseDir: `docs${base}`,
+      baseDir: 'docs',
+      // baseDir: `docs${base}`,
       index: 'index.html',
     },
     reloadDelay: 1000,
     reloadOnRestart: true,
-    startPath: 'index.html',
+    startPath: `.${base}/index.html`,
   });
 });
 
@@ -85,9 +87,12 @@ gulp.task('reload', (done) => {
 });
 
 gulp.task('pug', () => gulp.src(path.pug.input.index)
-  .pipe(plumber())
-  .pipe(cached('pug'))
-  .pipe(pug())
+  .pipe(pug(
+    {
+      pretty: true,
+      // basedir: './src',
+    },
+  ))
   .pipe(gulp.dest(path.pug.output.dir))
   .pipe(notify({
     title: 'Pug compiled.',
@@ -97,9 +102,10 @@ gulp.task('pug', () => gulp.src(path.pug.input.index)
   })));
 
 gulp.task('sass', () => gulp.src(path.sass.input.index)
-  .pipe(cached('sass'))
+  .pipe(sassGlob())
   .pipe(sass().on('error', sass.logError))
   .pipe(autoprefixer())
+  // .pipe(cleanCSS())
   .pipe(gulp.dest(path.sass.output.dir))
   .pipe(notify({
     title: 'Sass compiled.',
@@ -109,8 +115,8 @@ gulp.task('sass', () => gulp.src(path.sass.input.index)
   })));
 
 gulp.task('rm-babel', (cb) => {
-  rimraf(path.ts.babel.all, cb)
-})
+  rimraf(path.ts.babel.all, cb);
+});
 
 gulp.task('babel', () => gulp.src(path.ts.input.all)
   .pipe(babel({
@@ -138,9 +144,12 @@ gulp.task('bundle', () => browserify(path.ts.babel.index)
   })));
 
 gulp.task('default', gulp.parallel('browser-sync', 'pug', 'sass', gulp.series('rm-babel', 'babel', 'bundle'), () => {
-  gulp.watch(path.pug.input.all, gulp.series('pug', 'reload'));
-  gulp.watch(path.sass.input.all, gulp.series('sass', 'reload'));
-  gulp.watch(path.ts.input.all, gulp.series('rm-babel', 'babel', 'bundle', 'reload'));
+  // gulp.watch(path.pug.input.all, gulp.series('pug', 'reload'));
+  // gulp.watch(path.sass.input.all, gulp.series('sass', 'reload'));
+  // gulp.watch(path.ts.input.all, gulp.series('rm-babel', 'babel', 'bundle', 'reload'));
+  gulp.watch('src/**/*.pug', gulp.series('pug', 'reload'));
+  gulp.watch('src/**/*.scss', gulp.series('sass', 'reload'));
+  gulp.watch('src/**/*.ts', gulp.series('rm-babel', 'babel', 'bundle', 'reload'));
 }));
 
 gulp.task('compile', gulp.parallel('pug', 'sass', gulp.series('rm-babel', 'babel', 'bundle')));

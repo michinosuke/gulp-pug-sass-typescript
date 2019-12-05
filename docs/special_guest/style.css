@@ -1,0 +1,322 @@
+* {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  font-feature-settings: 'palt';
+  box-sizing: border-box;
+  list-style-type: none;
+  text-decoration: none;
+  scroll-behavior: smooth; }
+
+@font-face {
+  font-family: "Apple LiGothic Medium";
+  src: url("../../assets/fonts/Apple_LiGothic_Medium.woff2") format("woff2"), url("../../assets/fonts/Apple_LiGothic_Medium.woff") format("woff");
+  unicode-range: U+0000-00FF; }
+
+body {
+  font-family: 'Apple LiGothic Medium', 'Roboto', 'Noto Sans JP', sans-serif; }
+
+a.covered-link {
+  position: absolute;
+  z-index: 10;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%; }
+
+.visibility-hidden {
+  position: absolute;
+  overflow: hidden;
+  width: 1px;
+  height: 1px; }
+
+.sponsor {
+  margin: 0 auto 100px;
+  width: 530px; }
+  .sponsor span {
+    color: #999;
+    font-size: 14px; }
+  .sponsor .images {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; }
+    .sponsor .images * {
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
+      background-position: right center; }
+    .sponsor .images .egg-design {
+      width: 410px;
+      height: 110px; }
+    .sponsor .images .softbank {
+      width: 230px;
+      height: 35px; }
+    .sponsor .images .nike {
+      width: 110px;
+      height: 33px; }
+    .sponsor .images .abc-mart {
+      width: 160px;
+      height: 38px; }
+  .sponsor .first {
+    display: flex;
+    margin-bottom: 80px;
+    align-items: center; }
+  .sponsor .second {
+    display: flex;
+    align-items: center; }
+
+footer {
+  height: 180px;
+  text-align: center;
+  background-color: #C2191F; }
+  footer * {
+    display: inline-block;
+    width: 100%;
+    color: white; }
+    footer *:link, footer *:visited, footer *:hover, footer *:active, footer *:focus {
+      color: white; }
+  footer .contact {
+    margin-top: 50px;
+    font-size: 18px;
+    letter-spacing: 1px; }
+  footer .copy-right {
+    margin-top: 50px;
+    font-size: 12px; }
+
+header {
+  position: fixed;
+  z-index: 100;
+  padding-top: 18px;
+  padding-right: 60px;
+  width: 100%;
+  color: #C2191F;
+  font-size: 21px;
+  letter-spacing: 1px; }
+  header .logout {
+    display: none; }
+  header.is-logged-in .login {
+    display: none; }
+  header.is-logged-in .logout {
+    display: inline-block; }
+  header ul {
+    display: flex;
+    justify-content: flex-end; }
+    header ul li {
+      margin-right: 38px; }
+      header ul li.selected {
+        position: relative; }
+        header ul li.selected::before {
+          position: absolute;
+          display: block;
+          margin: auto;
+          left: 0;
+          right: 0;
+          top: 40px;
+          content: '';
+          width: 6px;
+          height: 6px;
+          border-radius: 3px;
+          background-color: #C2191F; }
+  header .instagram, header .twitter {
+    position: absolute;
+    top: 12px;
+    width: 29px; }
+  header .instagram {
+    left: 40px; }
+  header .twitter {
+    left: 81px; }
+
+.balloon01 {
+  width: 182.5px; }
+  .balloon01 span {
+    position: absolute;
+    top: 37px;
+    left: 27px;
+    color: black;
+    font-size: 23px;
+    line-height: 33px;
+    text-align: center; }
+
+.goto-top .arrow-top {
+  position: absolute;
+  margin: 0 auto;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 14px;
+  height: 14px;
+  border-style: solid;
+  border-width: 0 7px 12px 7px;
+  border-color: transparent transparent #C2191F transparent; }
+
+.goto-top::after {
+  position: absolute;
+  margin: auto;
+  content: 'top';
+  font-size: 22px;
+  line-height: 33px;
+  top: 0;
+  left: 13px;
+  color: #C2191F; }
+
+.heading-wrapper {
+  text-align: center; }
+  .heading-wrapper .heading {
+    display: inline-block; }
+    .heading-wrapper .heading span {
+      color: #C2191F;
+      font-size: 65px;
+      line-height: 104px;
+      letter-spacing: 2px; }
+    .heading-wrapper .heading h1 {
+      width: 100%;
+      font-size: 20px;
+      line-height: 25px;
+      font-weight: lighter; }
+
+.icon {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain; }
+
+.vote-button {
+  margin: auto;
+  background-color: #C2191F;
+  width: 314px;
+  height: 76px; }
+  .vote-button * {
+    position: absolute; }
+  .vote-button .icon {
+    top: 28px;
+    left: 63px;
+    width: 26px; }
+  .vote-button span {
+    color: white; }
+  .vote-button .arrow {
+    width: 47px; }
+  .vote-button.box span {
+    top: 16px;
+    left: 117px;
+    color: white;
+    font-size: 21px; }
+  .vote-button.box .arrow {
+    top: 29px;
+    left: 232px; }
+  .vote-button.instagram span {
+    font-family: 'Roboto', 'Noto Sans JP', sans-serif;
+    text-align: center;
+    top: 17px;
+    left: 117px;
+    font-size: 18px;
+    line-height: 24px; }
+  .vote-button.instagram .arrow {
+    top: 29px;
+    left: 218px; }
+
+.vote-button-wrapper {
+  display: flex;
+  padding-bottom: 120px;
+  justify-content: center; }
+  .vote-button-wrapper .vote-button.box {
+    margin-right: 20px; }
+  .vote-button-wrapper .vote-button.instagram {
+    margin-left: 20px; }
+
+.goto-top {
+  margin: 0 auto;
+  width: 50px;
+  height: 50px;
+  margin-bottom: 100px; }
+
+.special-guest-block {
+  width: 83%; }
+  .special-guest-block .top-band {
+    height: 160px;
+    min-width: 896px;
+    background-color: #C2191F; }
+  .special-guest-block .bottom-band {
+    margin-bottom: 135px;
+    height: 300px;
+    width: 99%;
+    background-color: white;
+    border-bottom: solid 1px #C2191F; }
+  .special-guest-block .profile-image {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    height: calc(30vw * 1.22);
+    width: 30vw; }
+    .special-guest-block .profile-image img {
+      height: 100%; }
+  .special-guest-block .letter-wrapper {
+    position: absolute;
+    width: 42%;
+    top: 45px; }
+    .special-guest-block .letter-wrapper .name-en {
+      color: white;
+      font-size: 55px;
+      letter-spacing: 3px; }
+    .special-guest-block .letter-wrapper .name-ja {
+      padding-top: 23px;
+      font-size: 25px;
+      font-weight: lighter; }
+    .special-guest-block .letter-wrapper .description {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 12px;
+      line-height: 21px;
+      color: #909090; }
+  .special-guest-block .check-more {
+    position: absolute;
+    font-size: 20px; }
+  .special-guest-block .arrow {
+    position: absolute;
+    display: inline-block;
+    width: 40px; }
+  .special-guest-block .twitter, .special-guest-block .instagram {
+    position: absolute;
+    width: 26px; }
+  .special-guest-block.left {
+    margin: 0 auto 0 0; }
+    .special-guest-block.left .profile-image {
+      top: 14px;
+      right: 25px; }
+    .special-guest-block.left .letter-wrapper {
+      right: 380px;
+      text-align: right; }
+      .special-guest-block.left .letter-wrapper .description {
+        padding-top: 18px; }
+    .special-guest-block.left .check-more {
+      top: 380px;
+      right: 375px; }
+    .special-guest-block.left .arrow {
+      top: 385px;
+      right: 472px; }
+    .special-guest-block.left .instagram, .special-guest-block.left .twitter {
+      top: 387px; }
+    .special-guest-block.left .instagram {
+      right: 523px; }
+    .special-guest-block.left .twitter {
+      right: 562px; }
+  .special-guest-block.right {
+    margin: 0 0 0 auto; }
+    .special-guest-block.right .profile-image {
+      top: 29px;
+      left: 25px; }
+    .special-guest-block.right .letter-wrapper {
+      left: 388px;
+      text-align: left; }
+      .special-guest-block.right .letter-wrapper .description {
+        padding-top: 10px; }
+    .special-guest-block.right .check-more {
+      top: 393px;
+      left: 375px; }
+    .special-guest-block.right .arrow {
+      top: 399px;
+      left: 472px; }
+    .special-guest-block.right .instagram, .special-guest-block.right .twitter {
+      top: 399px; }
+    .special-guest-block.right .instagram {
+      left: 567px; }
+    .special-guest-block.right .twitter {
+      left: 527px; }

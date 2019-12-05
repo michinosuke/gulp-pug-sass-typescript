@@ -1,1 +1,1 @@
-"use strict";var _sum=_interopRequireDefault(require("./sum"));function _interopRequireDefault(e){return e&&e.__esModule?e:{default:e}}var result=(0,_sum.default)(1,2);console.log(result);
+"use strict";document.addEventListener("DOMContentLoaded",function(){var e=document.querySelector("header"),t=document.querySelector("header .login"),n=document.querySelector("header .logout");t.addEventListener("click",function(){e.classList.add("is-logged-in")}),n.addEventListener("click",function(){e.classList.remove("is-logged-in")})});
