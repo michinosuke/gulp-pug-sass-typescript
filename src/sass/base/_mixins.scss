@@ -1,31 +1,7 @@
-@mixin bg-contain {
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: contain;
-}
-
-@mixin bg-cover {
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-}
-
-@mixin a-link {
-  position: absolute;
-  z-index: 10;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-
-a.covered-link {
-  @include a-link;
-}
-
-.visibility-hidden {
-  position: absolute;
-  overflow: hidden;
-  width: 1px;
-  height: 1px;
-}
+@import 'mixins/a-link';
+@import 'mixins/bg-cover';
+@import 'mixins/font-family';
+@import 'mixins/media';
+@import 'mixins/on-active-appear';
+@import 'mixins/visibility-hidden';
+@import 'mixins/when-less-than';

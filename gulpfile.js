@@ -19,7 +19,7 @@ const sass = require('gulp-sass');
 const autoprefixer = require('gulp-autoprefixer');
 const pug = require('gulp-pug');
 const minimist = require('minimist');
-// const cleanCSS = require('gulp-clean-css');
+const cleanCSS = require('gulp-clean-css');
 const uglify = require('gulp-uglify');
 const browserify = require('browserify');
 const source = require('vinyl-source-stream');
@@ -27,18 +27,35 @@ const buffer = require('vinyl-buffer');
 const htmlValidator = require('gulp-w3c-html-validator');
 // const plumber = require('gulp-plumber');
 const through2 = require('through2');
+const mode = require('gulp-mode')({
+  modes: ['production', 'development'],
+  default: 'development',
+  verbose: false,
+});
 
 // --base オプションが付与されている場合は、それをbaseとする。
-
-const parseBase = () => {
+const parseArgs = () => {
   switch (process.argv.length) {
-    case 4: return `/${minimist(process.argv.slice(2)).base}`;
-    case 5: return `/${minimist(process.argv.slice(3)).base}`;
-    default: return '';
+    case 3: return minimist(process.argv.slice(1));
+    case 4: return minimist(process.argv.slice(2));
+    case 5: return minimist(process.argv.slice(3));
+    case 6: return minimist(process.argv.slice(3));
+    default: return {};
   }
 };
 
-const base = parseBase();
+// baseとmodeの設定
+const args = parseArgs();
+if (!args.base) args.base = '';
+const { base } = args;
+const isDevelopment = !args.production;
+console.log(`
+[debug]
+・args: ${JSON.stringify(args)}
+・base: ${base}
+・mode: ${isDevelopment ? 'development' : 'production'}
+・isDevelopment: ${isDevelopment}
+`);
 
 // パスの管理
 const path = {
@@ -100,7 +117,7 @@ gulp.task('reload', (done) => {
 // Pugのコンパイル
 gulp.task('pug', () => gulp.src(path.pug.input.index)
   // .pipe(plumber())
-  .pipe(pug({ pretty: true }))
+  .pipe(pug({ pretty: isDevelopment }))
   .pipe(htmlValidator())
   .pipe(through2.obj((file, encoding, callback) => {
     callback(null, file);
@@ -121,7 +138,7 @@ gulp.task('sass', () => gulp.src(path.sass.input.index)
   // .pipe(sassGlob())
   .pipe(sass().on('error', sass.logError))
   .pipe(autoprefixer())
-  // .pipe(cleanCSS())
+  .pipe(mode.production(cleanCSS()))
   .pipe(gulp.dest(path.sass.output.dir))
   .pipe(notify({
     title: 'Sass compiled.',
@@ -131,7 +148,7 @@ gulp.task('sass', () => gulp.src(path.sass.input.index)
   })));
 
 // TypeScriptのコンパイル
-gulp.task('browserify', () => browserify(path.ts.input.index)
+gulp.task('browserify', () => browserify(path.ts.input.index, { debug: isDevelopment })
   .plugin('tsify')
   .transform('babelify', { presets: ['es2015'] })
   .bundle()
@@ -141,7 +158,7 @@ gulp.task('browserify', () => browserify(path.ts.input.index)
   })
   .pipe(source('bundle.min.js'))
   .pipe(buffer())
-  .pipe(uglify())
+  .pipe(mode.production(uglify()))
   .pipe(gulp.dest(path.ts.output.dir))
   .pipe(notify({
     title: 'TypeScript compiled.',
@@ -151,11 +168,11 @@ gulp.task('browserify', () => browserify(path.ts.input.index)
   })));
 
 // ブラウザを立ち上げ、ファイルを監視して、変更があればコンパイルする。
-gulp.task('default', gulp.series(gulp.parallel('pug', 'sass', 'browserify'), 'browser-sync'), () => {
+gulp.task('default', gulp.parallel('browser-sync', 'pug', 'sass', 'browserify', () => {
   gulp.watch('./src/**/*.pug', gulp.series('pug', 'reload'));
   gulp.watch('./src/**/*.scss', gulp.series('sass', 'reload'));
   gulp.watch('./src/**/*.ts', gulp.series('browserify', 'reload'));
-});
+}));
 
 // ブラウザを立ち上げず、一度のみコンパイルする。
 gulp.task('compile', gulp.parallel('pug', 'sass', 'browserify'));

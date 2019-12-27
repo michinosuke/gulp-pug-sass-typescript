@@ -6,10 +6,17 @@
   box-sizing: border-box;
   list-style-type: none;
   text-decoration: none;
+  scroll-behavior: smooth;
   // background-color: rgba(255,0,0,0.05);
-  color: white;
+}
+
+@font-face {
+  font-family: "Apple LiGothic Medium";
+  src: url("#{$font-path}Apple_LiGothic_Medium.woff") format("woff");
+  unicode-range: U+0000-00FF;
+  font-display: swap;
 }
 
 body {
-  font-family: 'Roboto', 'Noto Sans JP', sans-serif;
+  font-family: 'Apple LiGothic Medium', 'Roboto', 'Noto Sans JP', sans-serif;
 }

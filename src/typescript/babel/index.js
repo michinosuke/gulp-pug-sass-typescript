@@ -1,1 +1,0 @@
-"use strict";var _sum=_interopRequireDefault(require("./sum"));function _interopRequireDefault(e){return e&&e.__esModule?e:{default:e}}var result=(0,_sum.default)(1,2);console.log(result);

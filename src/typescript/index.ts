@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-import sum from './sum';
+import d from './default'
 
-const result: number = sum(1, 2);
-console.log(result);
+d();
