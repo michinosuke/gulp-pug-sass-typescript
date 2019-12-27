@@ -1,37 +1,52 @@
 /* eslint-disable no-console */
 /*
-Usage
-`apple.com`というサブディレクトリで作業する場合
-gulp --base apple.com
-ルートディレクトリで作業する場合
-gulp
+
+  【 Usage 】
+
+  ・ルートディレクトリで作業する場合
+      $ gulp
+
+  ・apple.comというサブディレクトリで作業する場合
+      $ gulp --base apple.com
+
 */
 
 const gulp = require('gulp');
 const notify = require('gulp-notify');
 const browserSync = require('browser-sync').create();
 const sass = require('gulp-sass');
+// const sassGlob = require('gulp-sass-glob');
 const autoprefixer = require('gulp-autoprefixer');
 const pug = require('gulp-pug');
 const minimist = require('minimist');
-const plumber = require('gulp-plumber');
-const cached = require('gulp-cached');
-const babel = require('gulp-babel');
+// const cleanCSS = require('gulp-clean-css');
 const uglify = require('gulp-uglify');
 const browserify = require('browserify');
 const source = require('vinyl-source-stream');
-const rimraf = require('rimraf');
+const buffer = require('vinyl-buffer');
+const htmlValidator = require('gulp-w3c-html-validator');
+// const plumber = require('gulp-plumber');
+const through2 = require('through2');
 
-const base = process.argv.length === 4
-  ? `/${minimist(process.argv.slice(2)).base}`
-  : '';
+// --base オプションが付与されている場合は、それをbaseとする。
 
+const parseBase = () => {
+  switch (process.argv.length) {
+    case 4: return `/${minimist(process.argv.slice(2)).base}`;
+    case 5: return `/${minimist(process.argv.slice(3)).base}`;
+    default: return '';
+  }
+};
+
+const base = parseBase();
+
+// パスの管理
 const path = {
   pug: {
     input: {
       dir: `src${base}/pug`,
       index: `src${base}/pug/index.pug`,
-      all: `src${base}/pug/*.pug`,
+      all: `src${base}/pug/**/*.pug`,
     },
     output: {
       dir: `docs${base}`,
@@ -40,8 +55,8 @@ const path = {
   sass: {
     input: {
       dir: `src${base}/sass`,
-      index: `src${base}/sass/index.scss`,
-      all: `src${base}/sass/*.scss`,
+      index: `src${base}/sass/style.scss`,
+      all: `src${base}/sass/**/*.scss`,
     },
     output: {
       dir: `docs${base}`,
@@ -51,43 +66,47 @@ const path = {
     input: {
       dir: `src${base}/typescript`,
       index: `src${base}/typescript/index.ts`,
-      all: `src${base}/typescript/*.ts`,
+      all: `src${base}/typescript/**/*.ts`,
     },
     output: {
       dir: `docs${base}`,
     },
-    babel: {
-      dir: `src${base}/typescript/babel`,
-      index: `src${base}/typescript/babel/index.js`,
-      all: `src${base}/typescript/babel/*`,
-    },
   },
 };
 
+// ブラウザの同期
 gulp.task('browser-sync', () => {
   browserSync.init({
     port: 3000,
-    files: [`.${base}/**/*.*`],
+    files: ['./docs/**/*.*'],
     browser: 'google chrome',
     server: {
-      baseDir: `docs${base}`,
+      baseDir: 'docs',
       index: 'index.html',
     },
+    open: 'external',
     reloadDelay: 1000,
     reloadOnRestart: true,
-    startPath: 'index.html',
+    startPath: `.${base}/index.html`,
   });
 });
 
+// ブラウザのリロード
 gulp.task('reload', (done) => {
   browserSync.reload();
   done();
 });
 
+// Pugのコンパイル
 gulp.task('pug', () => gulp.src(path.pug.input.index)
-  .pipe(plumber())
-  .pipe(cached('pug'))
-  .pipe(pug())
+  // .pipe(plumber())
+  .pipe(pug({ pretty: true }))
+  .pipe(htmlValidator())
+  .pipe(through2.obj((file, encoding, callback) => {
+    callback(null, file);
+    if (!file.w3cjs.success) { throw Error(`HTML validation error(s) found in 【${base}】`); }
+  }))
+  // .pipe(htmlValidator.reporter())
   .pipe(gulp.dest(path.pug.output.dir))
   .pipe(notify({
     title: 'Pug compiled.',
@@ -96,10 +115,13 @@ gulp.task('pug', () => gulp.src(path.pug.input.index)
     icon: './notify-icon/icon_pug.png',
   })));
 
+// SASSのコンパイル
 gulp.task('sass', () => gulp.src(path.sass.input.index)
-  .pipe(cached('sass'))
+  // .pipe(plumber())
+  // .pipe(sassGlob())
   .pipe(sass().on('error', sass.logError))
   .pipe(autoprefixer())
+  // .pipe(cleanCSS())
   .pipe(gulp.dest(path.sass.output.dir))
   .pipe(notify({
     title: 'Sass compiled.',
@@ -108,39 +130,32 @@ gulp.task('sass', () => gulp.src(path.sass.input.index)
     icon: './notify-icon/icon_sass.png',
   })));
 
-gulp.task('rm-babel', (cb) => {
-  rimraf(path.ts.babel.all, cb)
-})
-
-gulp.task('babel', () => gulp.src(path.ts.input.all)
-  .pipe(babel({
-    presets: [
-      '@babel/preset-env',
-      '@babel/preset-typescript',
-    ],
-  }))
-  .pipe(uglify())
-  .pipe(gulp.dest(path.ts.babel.dir)));
-
-gulp.task('bundle', () => browserify(path.ts.babel.index)
+// TypeScriptのコンパイル
+gulp.task('browserify', () => browserify(path.ts.input.index)
+  .plugin('tsify')
+  .transform('babelify', { presets: ['es2015'] })
   .bundle()
   .on('error', (err) => {
     console.log(err.message);
     console.log(err.stack);
   })
   .pipe(source('bundle.min.js'))
+  .pipe(buffer())
+  .pipe(uglify())
   .pipe(gulp.dest(path.ts.output.dir))
   .pipe(notify({
-    title: 'Babel compiled.',
+    title: 'TypeScript compiled.',
     message: new Date(),
     sound: 'Pop',
     icon: './notify-icon/icon_babel.png',
   })));
 
-gulp.task('default', gulp.parallel('browser-sync', 'pug', 'sass', gulp.series('rm-babel', 'babel', 'bundle'), () => {
-  gulp.watch(path.pug.input.all, gulp.series('pug', 'reload'));
-  gulp.watch(path.sass.input.all, gulp.series('sass', 'reload'));
-  gulp.watch(path.ts.input.all, gulp.series('rm-babel', 'babel', 'bundle', 'reload'));
-}));
+// ブラウザを立ち上げ、ファイルを監視して、変更があればコンパイルする。
+gulp.task('default', gulp.series(gulp.parallel('pug', 'sass', 'browserify'), 'browser-sync'), () => {
+  gulp.watch('./src/**/*.pug', gulp.series('pug', 'reload'));
+  gulp.watch('./src/**/*.scss', gulp.series('sass', 'reload'));
+  gulp.watch('./src/**/*.ts', gulp.series('browserify', 'reload'));
+});
 
-gulp.task('compile', gulp.parallel('pug', 'sass', gulp.series('rm-babel', 'babel', 'bundle')));
+// ブラウザを立ち上げず、一度のみコンパイルする。
+gulp.task('compile', gulp.parallel('pug', 'sass', 'browserify'));
