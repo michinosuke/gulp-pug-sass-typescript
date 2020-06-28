@@ -21,7 +21,7 @@ mkdir -p src/$1
 cp -r setup-template-sub/* src/$1/
 echo "succeed!!"
 
-echo "gulp compile --base $1" >> ./compile.sh
+echo "gulp compile --production --base $1" >> ./compile.sh
 
 code src/$1/pug/index.pug
 gulp --base $1

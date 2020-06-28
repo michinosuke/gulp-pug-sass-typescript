@@ -47,7 +47,7 @@ const parseArgs = () => {
 // baseとmodeの設定
 const args = parseArgs();
 if (!args.base) args.base = '';
-const { base } = args;
+const base = args.base === '' ? '' : `/${args.base}`;
 const isDevelopment = !args.production;
 console.log(`
 [debug]
