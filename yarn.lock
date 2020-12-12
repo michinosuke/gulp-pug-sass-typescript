@@ -4209,6 +4209,13 @@ gulp-csscomb@^3.0.8:
     gulp-util "^3.0.7"
     through2 "^2.0.1"
 
+gulp-mode@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/gulp-mode/-/gulp-mode-1.0.2.tgz#33c76033491fb71f47f1ebf8c67561ad9da7dfc9"
+  integrity sha512-i1UqW2NmBkyNirpthzbW1Na7t6JeSttuWjJyX8oY2Xve1Nx9tGhscoFgv1I/EOEsRcxGmhGyIRvpiKKL1d918A==
+  dependencies:
+    gulp-util "^3.0.8"
+
 gulp-notify@^3.2.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/gulp-notify/-/gulp-notify-3.2.0.tgz#2ae8225009df881eef59be5dd5a2f1337387764e"
@@ -4284,7 +4291,7 @@ gulp-uglify@^3.0.2:
     uglify-js "^3.0.5"
     vinyl-sourcemaps-apply "^0.2.0"
 
-gulp-util@^3.0.7:
+gulp-util@^3.0.7, gulp-util@^3.0.8:
   version "3.0.8"
   resolved "https://registry.yarnpkg.com/gulp-util/-/gulp-util-3.0.8.tgz#0054e1e744502e27c04c187c3ecc505dd54bbb4f"
   integrity sha1-AFTh50RQLifATBh8PsxQXdVLu08=
@@ -4625,9 +4632,9 @@ inherits@2.0.3:
   integrity sha1-Yzwsg+PaQqUC9SRmAiSA9CCCYd4=
 
 ini@^1.3.4, ini@~1.3.0:
-  version "1.3.5"
-  resolved "https://registry.yarnpkg.com/ini/-/ini-1.3.5.tgz#eee25f56db1c9ec6085e0c22778083f596abf927"
-  integrity sha512-RZY5huIKCMRWDUqZlEi72f/lmXKMvuszcMBduliQ3nnWbx9X/ZBQO7DijMEYS9EhHBb2qacRUMtC7svLwe0lcw==
+  version "1.3.8"
+  resolved "https://registry.yarnpkg.com/ini/-/ini-1.3.8.tgz#a29da425b48806f34767a4efce397269af28432c"
+  integrity sha512-JV/yugV2uzW5iMRSiZAyDtQd+nxtUnjeLt0acNdw98kKLrvuRVyB80tsREOE7yvGVgalhZ6RNXCmEHkUKBKxew==
 
 inline-source-map@~0.6.0:
   version "0.6.2"
