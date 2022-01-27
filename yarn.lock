@@ -911,7 +911,7 @@ ansi-colors@^1.0.1:
   dependencies:
     ansi-wrap "^0.1.0"
 
-ansi-colors@~4.1:
+ansi-colors@^4.1.1, ansi-colors@~4.1:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/ansi-colors/-/ansi-colors-4.1.1.tgz#cbb9ae256bf750af1eab344f229aa27fe94ba348"
   integrity sha512-JoX0apGbHaUJBNl6yF+p6JAFYZ666/hhCGKN5t9QFjbJQKUU/g8MNbFDbvfrgKXvI1QpZplPOnwIo99lX/AAmA==
@@ -2115,9 +2115,9 @@ cache-base@^1.0.1:
     unset-value "^1.0.0"
 
 cached-path-relative@^1.0.0, cached-path-relative@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/cached-path-relative/-/cached-path-relative-1.0.2.tgz#a13df4196d26776220cc3356eb147a52dba2c6db"
-  integrity sha512-5r2GqsoEb4qMTTN9J+WzXfjov+hjxT+j3u5K+kIVNIwAd99DLCJE9pBIMP1qVeybV6JiijL385Oz0DcYxfbOIg==
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/cached-path-relative/-/cached-path-relative-1.1.0.tgz#865576dfef39c0d6a7defde794d078f5308e3ef3"
+  integrity sha512-WF0LihfemtesFcJgO7xfOoOcnWzY/QHR4qeDqV44jPU3HTI54+LnfXK3SA27AVVGCdZFgjjFFaqUA9Jx7dMJZA==
 
 caller-path@^0.1.0:
   version "0.1.0"
@@ -3604,7 +3604,7 @@ extsprintf@^1.2.0:
   resolved "https://registry.yarnpkg.com/extsprintf/-/extsprintf-1.4.0.tgz#e2689f8f356fad62cca65a3a91c5df5f9551692f"
   integrity sha1-4mifjzVvrWLMplo6kcXfX5VRaS8=
 
-fancy-log@^1.1.0, fancy-log@^1.3.2, fancy-log@~1.3:
+fancy-log@^1.1.0, fancy-log@^1.3.2, fancy-log@^1.3.3, fancy-log@~1.3:
   version "1.3.3"
   resolved "https://registry.yarnpkg.com/fancy-log/-/fancy-log-1.3.3.tgz#dbc19154f558690150a23953a0adbd035be45fc7"
   integrity sha512-k9oEhlyc0FrVh25qYuSELjr8oxsCoc4/LEZfg2iJJrfEk/tZL9bCoJE47gqAvI2m/AUjluCS4+3I0eTx8n3AEw==
@@ -4208,6 +4208,22 @@ gulp-csscomb@^3.0.8:
     csscomb "^3.1.7"
     gulp-util "^3.0.7"
     through2 "^2.0.1"
+
+gulp-mode@^1.0.2:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/gulp-mode/-/gulp-mode-1.1.0.tgz#dbb47d99f5cbe28c8b94ff4a838e5e7291d3d9f2"
+  integrity sha512-6Eu+Nx5GNOhvEtNz+j3u1rZFR72l93uep7SviQM38stIeFD2+lIo+4lZrj4l0n2ESyp5ntSXdlM0lA8UKtOnkg==
+  dependencies:
+    ansi-colors "^4.1.1"
+    fancy-log "^1.3.3"
+    gulp-noop "^1.0.1"
+
+gulp-noop@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/gulp-noop/-/gulp-noop-1.0.1.tgz#6ab3534e36b6d0a6175812ac2175c81c0924e8bf"
+  integrity sha512-bX8wd6jgjgrT/DVok2ms2XXGOzhDnQe3QP2lCfmPFgyOaLtc3NmlKbFA0J03UniBgFjU7OFba7EMKSLEDfvCTQ==
+  dependencies:
+    through2 "^2.0.0"
 
 gulp-notify@^3.2.0:
   version "3.2.0"
